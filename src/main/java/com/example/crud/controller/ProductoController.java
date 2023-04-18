@@ -28,9 +28,9 @@ public class ProductoController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Void> crear(@RequestBody ProductoDto ProductoDto) {
-        productoService.crear(ProductoDto);
-        return ResponseEntity.created(URI.create("/productos/" + ProductoDto.getId())).build();
+    public ResponseEntity<Void> crear(@RequestBody ProductoDto productoDto) {
+        productoService.crear(productoDto);
+        return ResponseEntity.created(URI.create("/productos/" + productoDto.getId())).build();
     }
 
     @PutMapping("")
