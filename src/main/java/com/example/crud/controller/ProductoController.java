@@ -1,5 +1,6 @@
 package com.example.crud.controller;
 
+import com.example.crud.dto.FiltroProductoDTO;
 import com.example.crud.dto.ProductoDTO;
 import com.example.crud.dto.RequestSearchDTO;
 import com.example.crud.exceptions.EntityNotFoundException;
@@ -25,8 +26,8 @@ public class ProductoController {
     }
 
     @PostMapping("/paginado")
-    public ResponseEntity<Page<ProductoDTO>> obtenerTodosPaginado(@RequestBody RequestSearchDTO requestSearchDTO) {
-        return ResponseEntity.ok(productoService.obtenerTodosPaginado(requestSearchDTO));
+    public ResponseEntity<Page<ProductoDTO>> obtenerTodosPaginado(@RequestBody FiltroProductoDTO filtro) {
+        return ResponseEntity.ok(productoService.obtenerTodosPaginado(filtro));
     }
 
     @GetMapping("/{id}")

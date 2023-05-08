@@ -1,5 +1,6 @@
 package com.example.crud.service;
 
+import com.example.crud.dto.FiltroProductoDTO;
 import com.example.crud.dto.ProductoDTO;
 import com.example.crud.dto.RequestSearchDTO;
 import com.example.crud.exceptions.EntityNotFoundException;
@@ -11,7 +12,7 @@ public interface ProductoService {
 
     List<ProductoDTO> obtenerTodos();
 
-    Page<ProductoDTO> obtenerTodosPaginado(RequestSearchDTO requestSearchDTO);
+    Page<ProductoDTO> obtenerTodosPaginado(FiltroProductoDTO requestSearchDTO);
 
     ProductoDTO obtenerPorId(Long id) throws EntityNotFoundException;
 

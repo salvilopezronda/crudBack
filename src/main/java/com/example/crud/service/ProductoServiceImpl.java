@@ -1,6 +1,7 @@
 package com.example.crud.service;
 
 import com.example.crud.domain.Producto;
+import com.example.crud.dto.FiltroProductoDTO;
 import com.example.crud.dto.ProductoDTO;
 import com.example.crud.dto.ProductoMapperImpl;
 import com.example.crud.dto.RequestSearchDTO;
@@ -32,9 +33,11 @@ public class ProductoServiceImpl implements ProductoService{
     }
 
     @Override
-    public Page<ProductoDTO> obtenerTodosPaginado(RequestSearchDTO requestSearchDTO) {
-        Pageable pageable = PageRequest.of(requestSearchDTO.getPage(),requestSearchDTO.getSize(), Sort.by(requestSearchDTO.getSort()).ascending());
-        return productoRepository.findAll(pageable).map(productoMapper::productoToProductoDTO);
+    public Page<ProductoDTO> obtenerTodosPaginado(FiltroProductoDTO filtro) {
+        Pageable pageable = PageRequest.of(filtro.getPage(), filtro.getSize(),Sort.by(filtro.getSort()).ascending());
+        Page<Producto> page=productoRepository.getProductos(filtro.getNombre(), pageable);
+
+        return page.map(productoMapper::productoToProductoDTO);
     }
 
 
