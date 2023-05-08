@@ -1,19 +1,23 @@
 package com.example.crud.service;
 
-import com.example.crud.dto.ProductoDto;
+import com.example.crud.dto.ProductoDTO;
+import com.example.crud.dto.RequestSearchDTO;
 import com.example.crud.exceptions.EntityNotFoundException;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface ProductoService {
 
-    List<ProductoDto> obtenerTodos();
+    List<ProductoDTO> obtenerTodos();
 
-    ProductoDto obtenerPorId(Long id) throws EntityNotFoundException;
+    Page<ProductoDTO> obtenerTodosPaginado(RequestSearchDTO requestSearchDTO);
 
-    void crear(ProductoDto productoDto);
+    ProductoDTO obtenerPorId(Long id) throws EntityNotFoundException;
 
-    void modificar(ProductoDto productoDto) throws EntityNotFoundException;
+    void crear(ProductoDTO productoDto);
+
+    void modificar(ProductoDTO productoDto) throws EntityNotFoundException;
 
     void eliminar(Long id);
 }

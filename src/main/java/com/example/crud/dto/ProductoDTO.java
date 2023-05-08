@@ -3,8 +3,7 @@ package com.example.crud.dto;
 import lombok.Data;
 
 @Data
-
-public class ProductoDto {
+public class ProductoDTO {
 
     private Long id;
     private String nombre;

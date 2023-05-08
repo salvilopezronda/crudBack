@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 public class ProductoMapperImpl{
 
 
-    public ProductoDto productoToProductoDTO(Producto producto) {
+    public ProductoDTO productoToProductoDTO(Producto producto) {
         if (producto == null) {
             return null;
         }
 
-        ProductoDto productoDTO = new ProductoDto();
+        ProductoDTO productoDTO = new ProductoDTO();
 
         productoDTO.setId(producto.getId());
         productoDTO.setNombre(producto.getNombre());
@@ -22,7 +22,7 @@ public class ProductoMapperImpl{
         return productoDTO;
     }
 
-    public Producto productoDTOToProducto(ProductoDto ProductoDto) {
+    public Producto productoDTOToProducto(ProductoDTO ProductoDto) {
         if (ProductoDto == null) {
             return null;
         }
@@ -36,7 +36,7 @@ public class ProductoMapperImpl{
 
         return producto;
     }
-    public Producto productoDTOToProductoModify(ProductoDto ProductoDto,Producto producto) {
+    public Producto productoDTOToProductoModify(ProductoDTO ProductoDto, Producto producto) {
         if (ProductoDto == null) {
             return null;
         }
@@ -47,7 +47,7 @@ public class ProductoMapperImpl{
 
         return producto;
     }
-    public Producto productoDTOToProductoCreate(ProductoDto ProductoDto) {
+    public Producto productoDTOToProductoCreate(ProductoDTO ProductoDto) {
         if (ProductoDto == null) {
             return null;
         }

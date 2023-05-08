@@ -1,11 +1,16 @@
 package com.example.crud.service;
 
 import com.example.crud.domain.Producto;
-import com.example.crud.dto.ProductoDto;
+import com.example.crud.dto.ProductoDTO;
 import com.example.crud.dto.ProductoMapperImpl;
+import com.example.crud.dto.RequestSearchDTO;
 import com.example.crud.exceptions.EntityNotFoundException;
 import com.example.crud.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,23 +27,30 @@ public class ProductoServiceImpl implements ProductoService{
 
 
     @Override
-    public List<ProductoDto> obtenerTodos() {
+    public List<ProductoDTO> obtenerTodos() {
         return productoRepository.findAll().stream().map(productoMapper::productoToProductoDTO).collect(Collectors.toList());
     }
 
     @Override
-    public ProductoDto obtenerPorId(Long id) throws EntityNotFoundException {
+    public Page<ProductoDTO> obtenerTodosPaginado(RequestSearchDTO requestSearchDTO) {
+        Pageable pageable = PageRequest.of(requestSearchDTO.getPage(),requestSearchDTO.getSize(), Sort.by(requestSearchDTO.getSort()).ascending());
+        return productoRepository.findAll(pageable).map(productoMapper::productoToProductoDTO);
+    }
+
+
+    @Override
+    public ProductoDTO obtenerPorId(Long id) throws EntityNotFoundException {
         return productoMapper.productoToProductoDTO(productoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se encontró el producto con id: " + id)));
     }
 
     @Override
-    public void crear(ProductoDto productoDto) {
+    public void crear(ProductoDTO productoDto) {
         productoRepository.save(productoMapper.productoDTOToProductoCreate(productoDto));
     }
 
     @Override
-    public void modificar(ProductoDto productoDto) throws EntityNotFoundException {
+    public void modificar(ProductoDTO productoDto) throws EntityNotFoundException {
         Producto producto=productoRepository.findById(productoDto.getId()).orElseThrow(() -> new EntityNotFoundException("No se encontró el producto con id: " + productoDto.getId()));
         productoRepository.save(productoMapper.productoDTOToProductoModify(productoDto,producto));
     }

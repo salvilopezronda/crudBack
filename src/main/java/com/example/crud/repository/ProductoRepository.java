@@ -6,4 +6,15 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
+
+  /*  @Query(value = "SELECT * "+
+            " FROM EST_AUDITORIAS a ",
+            nativeQuery = true,
+            countQuery = "select count(1) " +
+            " FROM EST_AUDITORIAS a ")
+    Page<Producto> getProductos(Pageable pageable);
+
+    @Query(value = "SELECT a "+
+            " FROM Producto a ")
+    Page<Producto> getProductos(Pageable pageable);*/
 }
