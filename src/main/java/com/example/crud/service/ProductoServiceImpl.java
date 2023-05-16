@@ -4,7 +4,6 @@ import com.example.crud.domain.Producto;
 import com.example.crud.dto.FiltroProductoDTO;
 import com.example.crud.dto.ProductoDTO;
 import com.example.crud.dto.ProductoMapperImpl;
-import com.example.crud.dto.RequestSearchDTO;
 import com.example.crud.exceptions.EntityNotFoundException;
 import com.example.crud.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ProductoServiceImpl implements ProductoService{
+public class ProductoServiceImpl implements ProductoService {
 
     @Autowired
     private ProductoRepository productoRepository;
@@ -29,13 +28,13 @@ public class ProductoServiceImpl implements ProductoService{
 
     @Override
     public List<ProductoDTO> obtenerTodos() {
-        return productoRepository.findAll().stream().map(productoMapper::productoToProductoDTO).collect(Collectors.toList());
+        return productoRepository.buscar().stream().map(productoMapper::productoToProductoDTO).collect(Collectors.toList());
     }
 
     @Override
     public Page<ProductoDTO> obtenerTodosPaginado(FiltroProductoDTO filtro) {
-        Pageable pageable = PageRequest.of(filtro.getPage(), filtro.getSize(),Sort.by(filtro.getSort()).ascending());
-        Page<Producto> page=productoRepository.getProductos(filtro.getNombre(), pageable);
+        Pageable pageable = PageRequest.of(filtro.getPage(), filtro.getSize(), Sort.by(filtro.getSort()).ascending());
+        Page<Producto> page = productoRepository.getProductos(filtro.getNombre(), pageable);
 
         return page.map(productoMapper::productoToProductoDTO);
     }
@@ -43,23 +42,23 @@ public class ProductoServiceImpl implements ProductoService{
 
     @Override
     public ProductoDTO obtenerPorId(Long id) throws EntityNotFoundException {
-        return productoMapper.productoToProductoDTO(productoRepository.findById(id)
+        return productoMapper.productoToProductoDTO(productoRepository.buscarPorId(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se encontró el producto con id: " + id)));
     }
 
     @Override
     public void crear(ProductoDTO productoDto) {
-        productoRepository.save(productoMapper.productoDTOToProductoCreate(productoDto));
+        productoRepository.crear(productoMapper.productoDTOToProductoCreate(productoDto));
     }
 
     @Override
     public void modificar(ProductoDTO productoDto) throws EntityNotFoundException {
-        Producto producto=productoRepository.findById(productoDto.getId()).orElseThrow(() -> new EntityNotFoundException("No se encontró el producto con id: " + productoDto.getId()));
-        productoRepository.save(productoMapper.productoDTOToProductoModify(productoDto,producto));
+        Producto producto = productoRepository.findById(productoDto.getId()).orElseThrow(() -> new EntityNotFoundException("No se encontró el producto con id: " + productoDto.getId()));
+        productoRepository.actualizar(productoMapper.productoDTOToProductoModify(productoDto, producto));
     }
 
     @Override
     public void eliminar(Long id) {
-        productoRepository.deleteById(id);
+        productoRepository.eliminar(id);
     }
 }

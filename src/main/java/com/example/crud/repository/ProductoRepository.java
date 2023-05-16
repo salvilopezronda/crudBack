@@ -1,15 +1,15 @@
 package com.example.crud.repository;
 
 import com.example.crud.domain.Producto;
+import com.example.crud.shared.repository.BaseJpaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductoRepository extends JpaRepository<Producto, Long> {
+public interface ProductoRepository extends BaseJpaRepository<Producto, Long> {
 
 
     @Query(value = "SELECT * " +
