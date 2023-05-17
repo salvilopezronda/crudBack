@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,16 +34,16 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public Page<ProductoDTO> obtenerTodosPaginado(FiltroProductoDTO filtro) {
         Pageable pageable = PageRequest.of(filtro.getPage(), filtro.getSize(), Sort.by(filtro.getSort()).ascending());
-       //TODO Consulta name query
+        //TODO Consulta name query
 
-       // Page<Producto> page = productoRepository.getProductos(filtro.getNombre(), pageable);
+        // Page<Producto> page = productoRepository.getProductos(filtro.getNombre(), pageable);
         //TODO Consulta specification
 
         //Specification<Producto> spec = ProductoRepository.findByNombreEspecification(filtro.getNombre());
-       // Page<Producto> page =productoRepository.findAll(spec,pageable);
+        // Page<Producto> page =productoRepository.findAll(spec,pageable);
 
         //TODO Consulta jpaRepository
-        Page<Producto> page = productoRepository.findByNombreLike("%"+filtro.getNombre()+"%", pageable);
+        Page<Producto> page = productoRepository.findByNombreLike("%" + filtro.getNombre() + "%", pageable);
 
         return page.map(productoMapper::productoToProductoDTO);
     }
