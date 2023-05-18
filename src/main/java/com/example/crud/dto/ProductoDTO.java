@@ -9,5 +9,7 @@ public class ProductoDTO {
     private String nombre;
     private String descripcion;
     private Double precio;
+    private String nombreArchivo;
 
+    private String archivo;
 }

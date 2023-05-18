@@ -1,17 +1,23 @@
 package com.example.crud.controller;
 
+import com.example.crud.dto.FicheroDTO;
 import com.example.crud.dto.FiltroProductoDTO;
 import com.example.crud.dto.ProductoDTO;
 import com.example.crud.exceptions.AccesDataException;
 import com.example.crud.exceptions.EntityNotFoundException;
 import com.example.crud.service.ProductoService;
+import com.example.crud.shared.BaseController;
 import com.example.crud.shared.CrudConstants;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.expression.AccessException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -24,7 +30,7 @@ public class ProductoController extends BaseController {
 
     @GetMapping("")
     public ResponseEntity<List<ProductoDTO>> obtenerTodos() throws AccesDataException {
-        this.comprobarAutorizacion(CrudConstants.ROL_ADMINISTRADOR);
+
         return ResponseEntity.ok(this.productoService.obtenerTodos());
     }
 
@@ -55,7 +61,16 @@ public class ProductoController extends BaseController {
         this.productoService.eliminar(id);
         return ResponseEntity.ok().build();
     }
-
+    @GetMapping("/ficheroAnexo/{id}")
+    public ResponseEntity<byte[]> descargarFicheroAnexo(@PathVariable Long id) throws EntityNotFoundException, IOException {
+        FicheroDTO fichero =this.productoService.descargarFichero(id);
+        HttpHeaders headers = new HttpHeaders();
+        if(fichero==null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        headers.add(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename="+fichero.getNombreArchivo());
+        return ResponseEntity.ok().headers(headers).body(IOUtils.toByteArray(new ByteArrayInputStream(fichero.getArchivo())));
+    }
 }
 
 

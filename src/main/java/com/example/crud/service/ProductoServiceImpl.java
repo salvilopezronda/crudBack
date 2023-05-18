@@ -1,6 +1,7 @@
 package com.example.crud.service;
 
 import com.example.crud.domain.Producto;
+import com.example.crud.dto.FicheroDTO;
 import com.example.crud.dto.FiltroProductoDTO;
 import com.example.crud.dto.ProductoDTO;
 import com.example.crud.dto.ProductoMapperImpl;
@@ -34,18 +35,7 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public Page<ProductoDTO> obtenerTodosPaginado(FiltroProductoDTO filtro) {
         Pageable pageable = PageRequest.of(filtro.getPage(), filtro.getSize(), Sort.by(filtro.getSort()).ascending());
-        //TODO Consulta name query
-
-        // Page<Producto> page = productoRepository.getProductos(filtro.getNombre(), pageable);
-        //TODO Consulta specification
-
-        //Specification<Producto> spec = ProductoRepository.findByNombreEspecification(filtro.getNombre());
-        // Page<Producto> page =productoRepository.findAll(spec,pageable);
-
-        //TODO Consulta jpaRepository
-        Page<Producto> page = productoRepository.findByNombreLike("%" + filtro.getNombre() + "%", pageable);
-
-        return page.map(productoMapper::productoToProductoDTO);
+        return productoRepository.findByNombreLike("%" + filtro.getNombre() + "%", pageable).map(productoMapper::productoToProductoDTO);
     }
 
 
@@ -69,5 +59,14 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public void eliminar(Long id) {
         productoRepository.eliminar(id);
+    }
+
+    @Override
+    public FicheroDTO descargarFichero(Long idProducto) throws EntityNotFoundException {
+        Producto producto =productoRepository.buscarPorId(idProducto).orElseThrow(() -> new EntityNotFoundException("No se encontró el producto con id: " + idProducto));
+        return FicheroDTO.builder()
+                .nombreArchivo(producto.getNombreArchivo())
+                .archivo(producto.getArchivo())
+                .build();
     }
 }

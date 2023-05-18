@@ -44,6 +44,10 @@ public interface BaseJpaRepository<T, ID> extends JpaRepository<T, ID> , JpaSpec
     default void eliminar(ID id) {
          this.deleteById(id);
     }
+
+    default  void eliminarListaIds(){
+        this.deleteAll();
+    }
     default void eliminarTodos(List<T> datos) {
         this.deleteAll(datos);
     }

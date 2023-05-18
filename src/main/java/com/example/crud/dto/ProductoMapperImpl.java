@@ -1,10 +1,13 @@
 package com.example.crud.dto;
 
 import com.example.crud.domain.Producto;
+import com.example.crud.shared.Util;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+
 @Service
-public class ProductoMapperImpl{
+public class ProductoMapperImpl {
 
 
     public ProductoDTO productoToProductoDTO(Producto producto) {
@@ -18,45 +21,35 @@ public class ProductoMapperImpl{
         productoDTO.setNombre(producto.getNombre());
         productoDTO.setDescripcion(producto.getDescripcion());
         productoDTO.setPrecio(producto.getPrecio());
-
+        productoDTO.setNombreArchivo(producto.getNombreArchivo());
         return productoDTO;
     }
 
-    public Producto productoDTOToProducto(ProductoDTO ProductoDto) {
-        if (ProductoDto == null) {
+    public Producto productoDTOToProductoModify(ProductoDTO productoDto, Producto producto) {
+        if (productoDto == null) {
+            return null;
+        }
+        producto.setId(productoDto.getId());
+        producto.setNombre(productoDto.getNombre());
+        producto.setDescripcion(productoDto.getDescripcion());
+        producto.setPrecio(productoDto.getPrecio());
+        if ((!StringUtils.isBlank(productoDto.getNombreArchivo()))&&productoDto.getArchivo()!=null) {
+            producto.setNombreArchivo(productoDto.getNombreArchivo());
+            producto.setArchivo(Util.convertiraByte(productoDto.getArchivo()));
+        }
+        return producto;
+    }
+
+    public Producto productoDTOToProductoCreate(ProductoDTO productoDto) {
+        if (productoDto == null) {
             return null;
         }
 
         Producto producto = new Producto();
-
-        producto.setId(ProductoDto.getId());
-        producto.setNombre(ProductoDto.getNombre());
-        producto.setDescripcion(ProductoDto.getDescripcion());
-        producto.setPrecio(ProductoDto.getPrecio());
-
-        return producto;
-    }
-    public Producto productoDTOToProductoModify(ProductoDTO ProductoDto, Producto producto) {
-        if (ProductoDto == null) {
-            return null;
-        }
-        producto.setId(ProductoDto.getId());
-        producto.setNombre(ProductoDto.getNombre());
-        producto.setDescripcion(ProductoDto.getDescripcion());
-        producto.setPrecio(ProductoDto.getPrecio());
-
-        return producto;
-    }
-    public Producto productoDTOToProductoCreate(ProductoDTO ProductoDto) {
-        if (ProductoDto == null) {
-            return null;
-        }
-
-        Producto producto = new Producto();
-        producto.setNombre(ProductoDto.getNombre());
-        producto.setDescripcion(ProductoDto.getDescripcion());
-        producto.setPrecio(ProductoDto.getPrecio());
-
+        producto.setNombre(productoDto.getNombre());
+        producto.setDescripcion(productoDto.getDescripcion());
+        producto.setPrecio(productoDto.getPrecio());
+        producto.setNombreArchivo(producto.getNombreArchivo());
         return producto;
     }
 }

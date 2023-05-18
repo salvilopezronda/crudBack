@@ -1,8 +1,6 @@
-package com.example.crud.controller;
+package com.example.crud.shared;
 
 import com.example.crud.exceptions.AccesDataException;
-import com.example.crud.shared.CrudConstants;
-import org.springframework.expression.AccessException;
 
 public abstract class BaseController {
 
