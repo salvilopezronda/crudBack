@@ -33,7 +33,8 @@ public class ProductoMapperImpl {
         producto.setNombre(productoDto.getNombre());
         producto.setDescripcion(productoDto.getDescripcion());
         producto.setPrecio(productoDto.getPrecio());
-        if ((!StringUtils.isBlank(productoDto.getNombreArchivo()))&&productoDto.getArchivo()!=null) {
+        if (((StringUtils.isNotBlank(productoDto.getNombreArchivo()))&&productoDto.getArchivo()!=null)
+        ||(StringUtils.isBlank(productoDto.getNombreArchivo())&&productoDto.getArchivo()==null)){
             producto.setNombreArchivo(productoDto.getNombreArchivo());
             producto.setArchivo(Util.convertiraByte(productoDto.getArchivo()));
         }
