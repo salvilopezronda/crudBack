@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 
 @Entity
 @Table(name = "productos")
@@ -30,6 +32,9 @@ public class Producto {
 
     @Column(name = "NOMBRE_ARCHIVO")
     private String nombreArchivo;
+
+    @Column(name = "FECHA_ALTA")
+    private LocalDate fechaAlta;
 
     @Column(name = "ARCHIVO", columnDefinition = "LONGBLOB")
     @JsonIgnore
